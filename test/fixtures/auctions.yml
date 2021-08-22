@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  status_auction: one
+  start_date: 2021-08-22 18:53:51
+  final_date: 2021-08-22 18:53:51
+
+two:
+  user: two
+  status_auction: two
+  start_date: 2021-08-22 18:53:51
+  final_date: 2021-08-22 18:53:51

@@ -1,0 +1,2 @@
+class StatusAuction < ApplicationRecord
+end
