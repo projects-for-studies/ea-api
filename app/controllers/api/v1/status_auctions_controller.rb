@@ -1,4 +1,4 @@
-class StatusAuctionsController < ApplicationController
+class Api::V1::StatusAuctionsController < ApplicationController
   before_action :set_status_auction, only: [:show, :update, :destroy]
 
   # GET /status_auctions

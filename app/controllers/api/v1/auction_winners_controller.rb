@@ -1,4 +1,4 @@
-class AuctionWinnersController < ApplicationController
+class Api::V1::AuctionWinnersController < ApplicationController
   before_action :set_auction_winner, only: [:show, :update, :destroy]
 
   # GET /auction_winners

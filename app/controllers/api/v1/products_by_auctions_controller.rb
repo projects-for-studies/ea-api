@@ -1,4 +1,4 @@
-class ProductsByAuctionsController < ApplicationController
+class Api::V1::ProductsByAuctionsController < ApplicationController
   before_action :set_products_by_auction, only: [:show, :update, :destroy]
 
   # GET /products_by_auctions

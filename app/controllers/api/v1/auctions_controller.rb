@@ -1,4 +1,4 @@
-class AuctionsController < ApplicationController
+class Api::V1::AuctionsController < ApplicationController
   before_action :set_auction, only: [:show, :update, :destroy]
 
   # GET /auctions
