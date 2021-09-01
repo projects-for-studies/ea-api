@@ -43,3 +43,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "devise_token_auth", "~> 1.2"
 
 gem "active_model_serializers", "~> 0.10.12"
+
+gem 'rack-cors'
