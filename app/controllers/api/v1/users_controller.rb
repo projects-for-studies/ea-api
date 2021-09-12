@@ -2,50 +2,17 @@ class Api::V1::UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
 
   # GET /users
-  def index
-    @users = User.all
-
-    render json: { data: { users: @users, version: 'TESTE VERSIONAMENTO v1' } }
-  end
+  def index;end
 
   # GET /users/1
-  def show
-    render json: @user
-  end
+  def show;end
 
   # POST /users
-  def create
-    @user = User.new(user_params)
-
-    if @user.save
-      render json: @user, status: :created, location: api_user_url(@user)
-    else
-      render json: @user.errors, status: :unprocessable_entity
-    end
-  end
+  def create;end
 
   # PATCH/PUT /users/1
-  def update
-    if @user.update(user_params)
-      render json: @user
-    else
-      render json: @user.errors, status: :unprocessable_entity
-    end
-  end
+  def update;end
 
   # DELETE /users/1
-  def destroy
-    @user.destroy
-  end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
-
-    # Only allow a list of trusted parameters through.
-    def user_params
-      params.require(:user).permit(:name, :email, :adress_id, :gender, :photo, :status, :date_birth, :telephone_1, :telephone_2)
-    end
+  def destroy;end
 end

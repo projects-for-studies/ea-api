@@ -9,5 +9,5 @@ class User < ApplicationRecord
                    :trackable,
                    :validatable
             include DeviseTokenAuth::Concerns::User
-  belongs_to :adress
+  belongs_to :adress, required: false
 end

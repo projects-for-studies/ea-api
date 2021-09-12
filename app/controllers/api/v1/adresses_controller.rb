@@ -15,12 +15,18 @@ class Api::V1::AdressesController < ApplicationController
 
   # POST /adresses
   def create
-    @adress = Adress.new(adress_params)
-
-    if @adress.save
-      render json: @adress, status: :created, location: @adress
+    user = User.find_by(id: adress_params[:user_id])
+    if !user.nil?
+      adress = Adress.create!({ city: adress_params[:city], state: adress_params[:state], district: adress_params[:district], street: adress_params[:street], number: adress_params[:number], zip_code: adress_params[:zip_code], complement: adress_params[:complement], reference: adress_params[:reference] })
+      if adress
+        user.adress_id = adress.id
+        user.save
+        render json: { data: "Endereço cadastrado com sucesso.", success: true }
+      else
+        render json: { data: "Erro ao cadastrar endereço.", success: false }
+      end
     else
-      render json: @adress.errors, status: :unprocessable_entity
+      render json: { data: "Usuário não existe.", success: false }
     end
   end
 
@@ -46,6 +52,6 @@ class Api::V1::AdressesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def adress_params
-      params.require(:adress).permit(:city, :state, :zip_code, :street, :district, :number, :complement, :reference)
+      params.permit(:user_id, :city, :state, :district, :zip_code, :number, :street, :complement, :reference)
     end
 end
