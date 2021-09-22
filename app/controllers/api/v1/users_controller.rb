@@ -1,18 +1,16 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user, :authenticate_api_user!, only: [:show]
 
-  # GET /users
-  def index;end
+  def show
+    if !@user.nil?
+      address = Adress.find_by(id: @user.adress_id)
+      render json: {user: @user, address: address}
+    end
+  end
 
-  # GET /users/1
-  def show;end
+  private
 
-  # POST /users
-  def create;end
-
-  # PATCH/PUT /users/1
-  def update;end
-
-  # DELETE /users/1
-  def destroy;end
+  def set_user
+    @user = User.find(params[:id])
+  end
 end
