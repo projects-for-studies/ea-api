@@ -8,10 +8,12 @@ Rails.application.routes.draw do
       resources :auctions
       resources :status_auctions
       resources :products
-      resources :adresses
+      resources :adresses, :only => [:create]
 
       # GET USER
       get 'user/:id', to: "users#show"
+      put 'user/edit/:id', to: "users#update"
+      put 'user/address/edit/:id', to: "users#update_address"
     end
   end
 end

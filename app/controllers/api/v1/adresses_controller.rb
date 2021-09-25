@@ -2,16 +2,10 @@ class Api::V1::AdressesController < ApplicationController
   before_action :set_adress, only: [:show, :update, :destroy]
 
   # GET /adresses
-  def index
-    @adresses = Adress.all
-
-    render json: @adresses
-  end
+  def index;end
 
   # GET /adresses/1
-  def show
-    render json: @adress
-  end
+  def show;end
 
   # POST /adresses
   def create
@@ -21,7 +15,7 @@ class Api::V1::AdressesController < ApplicationController
       if adress
         user.adress_id = adress.id
         user.save
-        render json: { data: "Endereço cadastrado com sucesso.", success: true }
+        render json: { data: adress, success: true }
       else
         render json: { data: "Erro ao cadastrar endereço.", success: false }
       end
@@ -31,18 +25,10 @@ class Api::V1::AdressesController < ApplicationController
   end
 
   # PATCH/PUT /adresses/1
-  def update
-    if @adress.update(adress_params)
-      render json: @adress
-    else
-      render json: @adress.errors, status: :unprocessable_entity
-    end
-  end
+  def update;end
 
   # DELETE /adresses/1
-  def destroy
-    @adress.destroy
-  end
+  def destroy;end
 
   private
     # Use callbacks to share common setup or constraints between actions.
