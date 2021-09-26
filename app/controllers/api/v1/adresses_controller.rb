@@ -10,6 +10,11 @@ class Api::V1::AdressesController < ApplicationController
   # POST /adresses
   def create
     user = User.find_by(id: adress_params[:user_id])
+    if adress_params[:city].empty? || adress_params[:state].empty? || adress_params[:district].empty? || adress_params[:street].empty? || adress_params[:zip_code].empty? || adress_params[:number].empty?
+      render json: { data: "Campos obrigatórios estão vazios." }
+      return
+    end
+
     if !user.nil?
       adress = Adress.create!({ city: adress_params[:city], state: adress_params[:state], district: adress_params[:district], street: adress_params[:street], number: adress_params[:number], zip_code: adress_params[:zip_code], complement: adress_params[:complement], reference: adress_params[:reference] })
       if adress

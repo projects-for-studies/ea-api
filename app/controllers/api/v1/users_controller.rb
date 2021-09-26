@@ -26,17 +26,13 @@ class Api::V1::UsersController < ApplicationController
       return
     end
 
+    if params[:city].empty? || params[:state].empty? || params[:district].empty? || params[:street].empty? || params[:zip_code].empty? || params[:number].empty?
+      render json: { data: "Campos obrigatórios estão vazios.", status: "error"  }
+      return
+    end
+
     if !@user.adress_id.nil?
       address = Adress.find_by(id: @user.adress_id)
-      if address.nil?
-        render json: { data: "Usuário não possui endereço cadastrado.", status: "error"  }
-        return
-      end
-
-      if params[:city].empty? || params[:state].empty? || params[:district].empty? || params[:street].empty? || params[:zip_code].empty? || params[:number].empty?
-        render json: { data: "Campos obrigatórios estão vazios.", status: "error"  }
-        return
-      end
 
       if address.update({ city: params[:city], state: params[:state], district: params[:district], zip_code: params[:zip_code], number: params[:number], street: params[:street], complement: params[:complement], reference: params[:reference] })
         render json: { data: address, status: "success" }
@@ -46,7 +42,11 @@ class Api::V1::UsersController < ApplicationController
         return
       end
     else
-      render json: { data: "Usuário não possui endereço cadastrado.", status: "error" }
+      address_create = Adress.create({ city: params[:city], state: params[:state], district: params[:district], zip_code: params[:zip_code], number: params[:number], street: params[:street], complement: params[:complement], reference: params[:reference] })
+      @user.adress_id = address_create.id
+      if @user.save && !address_create.nil?
+        render json: { data: "Endereço adicionado com sucesso.", status: "success" }
+      end
     end
   end
 
