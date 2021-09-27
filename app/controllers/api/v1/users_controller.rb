@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :set_user, :authenticate_api_user!, only: [:show, :update, :update_address]
+  before_action :set_user, :authenticate_api_user!, only: [:show, :update, :update_address, :upload_picture, :delete_picture]
 
   def show
     if !@user.nil?
@@ -47,6 +47,54 @@ class Api::V1::UsersController < ApplicationController
       if @user.save && !address_create.nil?
         render json: { data: "Endereço adicionado com sucesso.", status: "success" }
       end
+    end
+  end
+
+  def upload_picture
+    if !@user.nil?
+      FileUtils.mkdir("#{Rails.root}/public/profile_picture") unless File.exist?("#{Rails.root}/public/profile_picture")
+
+      extension = params[:filename].original_filename.split('.')
+      extension = extension[extension.length - 1]
+
+      file_name = "profile_picture_#{@user.id}.#{extension}"
+      path = File.join("#{Rails.root}/public/profile_picture", file_name)
+
+      if !@user.photo.nil? && !@user.photo.empty?
+        old_photo = File.join("#{Rails.root}/public/profile_picture", @user.photo)
+        File.delete(old_photo) if File.exist?(old_photo)
+        File.delete(path) if File.exist?(path)
+
+        File.open(path, 'wb') { |f| f.write(params[:filename].read) }
+        @user.photo = file_name
+        @user.save
+        render json: {data: file_name, status: true}
+      else
+
+        File.delete(path) if File.exist?(path)
+        File.open(path, 'wb') { |f| f.write(params[:filename].read) }
+        @user.photo = file_name
+        @user.save
+        render json: {data: file_name, status: true}
+      end
+    else
+      render json: { data: "Usuário não existe!", status: false }
+    end
+  end
+
+  def delete_picture
+    if !@user.nil?
+      if !@user.photo.nil? && !@user.photo.empty?
+        picture = File.join("#{Rails.root}/public/profile_picture", @user.photo)
+        File.delete(picture) if File.exist?(picture)
+        @user.photo = ""
+        @user.save
+        render json: { data: "Foto apagada com sucesso!", status: true }
+      else
+        render json: { data: "Usuário não possui foto de perfil!", status: false }
+      end
+    else
+      render json: { data: "Usuário não existe!", status: false }
     end
   end
 
